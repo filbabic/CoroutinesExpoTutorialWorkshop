@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "454809777753",
+    "firebase_url": "https://coroutinesexpo.firebaseio.com",
+    "project_id": "coroutinesexpo",
+    "storage_bucket": "coroutinesexpo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454809777753:android:3537c10d0d63c694",
+        "android_client_info": {
+          "package_name": "com.filip.babic.coroutinesexpo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454809777753-r6apk2avko7qf1qor3qft0k1lcdeseh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB62EyUVgoMc_rKKEPneo5PpvK3O1Uo8nY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

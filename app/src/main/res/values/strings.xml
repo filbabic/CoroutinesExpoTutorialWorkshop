@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CoroutinesExpo</string>
+
+    <string name="login">Login</string>
+    <string name="username_hint">Username</string>
+    <string name="email_hint">Email</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="register">Register</string>
+    <string name="description_hint">Description</string>
+    <string name="title_hint">Title</string>
+    <string name="add_post">Add post</string>
+    <string name="feed">Feed</string>
+    <string name="featured">Featured</string>
+    <string name="profile">Profile</string>
+    <string name="users">Users</string>
+    <string name="number_of_posts">Number of posts: %d</string>
+    <string name="feature_this_post">Feature this post</string>
+</resources>

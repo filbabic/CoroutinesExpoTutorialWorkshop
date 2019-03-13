@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/feedOption"
+        android:icon="@drawable/ic_feed"
+        android:title="@string/feed"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/featuredOptions"
+        android:icon="@drawable/ic_featured"
+        android:title="@string/featured"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/usersOptions"
+        android:icon="@drawable/ic_users"
+        android:title="@string/users"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/profileOption"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"
+        app:showAsAction="ifRoom"/>
+</menu>
