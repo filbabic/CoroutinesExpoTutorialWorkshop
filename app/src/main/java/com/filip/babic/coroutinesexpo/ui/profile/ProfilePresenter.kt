@@ -15,4 +15,12 @@ class ProfilePresenter(
             viewAction { render(it) }
         }
     }
+
+    override fun deletePosts(selectedPosts: List<String>) {
+        storageInteractor.deletePosts(selectedPosts) {
+            viewAction { removePosts(selectedPosts) }
+
+            start() // refresh everything
+        }
+    }
 }

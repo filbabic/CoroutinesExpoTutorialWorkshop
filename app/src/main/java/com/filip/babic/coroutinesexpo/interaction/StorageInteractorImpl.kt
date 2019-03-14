@@ -103,4 +103,22 @@ class StorageInteractorImpl(
                 onPostsLoaded(data)
             }
     }
+
+    override fun deletePosts(posts: List<String>, onPostsDeleted: () -> Unit) {
+        val rootPosts = firestore.collection(COLLECTION_FEATURED)
+
+        posts.forEach {
+            rootPosts.document(it).delete().addOnSuccessListener {
+                println("Deleted")
+            }
+        }
+
+        onPostsDeleted()
+    }
+
+    override fun deletePost(post: String) {
+        firestore.collection(COLLECTION_FEATURED).document(post).delete().addOnSuccessListener {
+            println("Deleted")
+        }
+    }
 }

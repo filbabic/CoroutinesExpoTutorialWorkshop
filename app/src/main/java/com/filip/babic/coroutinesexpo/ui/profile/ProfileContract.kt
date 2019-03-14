@@ -9,9 +9,12 @@ interface ProfileContract {
     interface View : BaseView {
 
         fun render(userProfile: UserProfile)
+
+        fun removePosts(removedPosts: List<String>)
     }
 
     interface Presenter : BasePresenter<View> {
 
+        fun deletePosts(selectedPosts: List<String>)
     }
 }

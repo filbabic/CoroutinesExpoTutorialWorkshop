@@ -15,7 +15,7 @@ import org.koin.android.ext.android.inject
 class ProfileFragment : Fragment(), ProfileContract.View {
 
     private val presenter by inject<ProfileContract.Presenter>()
-    private val adapter by lazy { FeedAdapter() }
+    private val adapter by lazy { FeedAdapter(true, ::onPostsSelected) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -25,6 +25,10 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         super.onViewCreated(view, savedInstanceState)
         initUi()
         presenter.setView(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
         presenter.start()
     }
 
@@ -32,6 +36,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         featuredPosts.adapter = adapter
         featuredPosts.layoutManager = LinearLayoutManager(activity)
         featuredPosts.setHasFixedSize(true)
+        deletePostsButton.hide()
+        deletePostsButton.setOnClickListener { presenter.deletePosts(adapter.getSelectedPosts()) }
     }
 
     override fun render(userProfile: UserProfile) = with(userProfile) {
@@ -39,5 +45,13 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         username.text = user.username
         numberOfPosts.text = resources.getString(R.string.number_of_posts, userPosts.size + featuredPosts.size)
         adapter.setData(featuredPosts)
+    }
+
+    override fun removePosts(removedPosts: List<String>) {
+        adapter.removePosts(removedPosts)
+    }
+
+    private fun onPostsSelected(hasSelectedPosts: Boolean) {
+        if (hasSelectedPosts) deletePostsButton.show() else deletePostsButton.hide()
     }
 }

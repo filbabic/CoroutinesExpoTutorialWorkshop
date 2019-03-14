@@ -20,4 +20,8 @@ interface StorageInteractor {
     fun getPosts(onPostsLoaded: (List<Post>) -> Unit)
 
     fun getFeaturedPosts(onPostsLoaded: (List<Post>) -> Unit)
+
+    fun deletePosts(posts: List<String>, onPostsDeleted: () -> Unit)
+
+    fun deletePost(post: String)
 }

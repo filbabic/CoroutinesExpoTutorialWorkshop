@@ -17,7 +17,7 @@ import org.koin.android.ext.android.inject
 class FeedFragment : Fragment(), FeedContract.View {
 
     private val presenter by inject<FeedContract.Presenter>()
-    private val adapter by lazy { FeedAdapter() }
+    private val adapter by lazy { FeedAdapter(false) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_feed, container, false)
