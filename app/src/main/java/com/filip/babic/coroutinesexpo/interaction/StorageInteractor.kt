@@ -13,7 +13,7 @@ interface StorageInteractor {
 
     fun addFeaturedPost(post: PostData, authorId: String, onPostAdded: () -> Unit)
 
-    fun getUserProfile(userId: String, onUserProfileLoaded: (UserProfile) -> Unit)
+    suspend fun getUserProfile(userId: String): UserProfile
 
     fun getUsers(onUsersLoaded: (List<UserItem>) -> Unit)
 

@@ -1,8 +1,14 @@
 package com.filip.babic.coroutinesexpo.interaction
 
 import com.filip.babic.coroutinesexpo.model.UserData
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class AuthenticationInteractorImpl(
     private val firebaseAuth: FirebaseAuth
@@ -34,10 +40,11 @@ class AuthenticationInteractorImpl(
         }
     }
 
-    override fun loginUser(email: String, password: String, onUserAuthenticated: (Boolean) -> Unit) {
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            onUserAuthenticated(it.isComplete && it.isSuccessful)
-        }
+    override suspend fun loginUser(email: String, password: String): Deferred<Boolean> = GlobalScope.async {
+        println("I'm getting the result")
+        val task = Tasks.await(firebaseAuth.signInWithEmailAndPassword(email, password))
+
+        task != null && task.user != null
     }
 
     override fun getUserData(): UserData {

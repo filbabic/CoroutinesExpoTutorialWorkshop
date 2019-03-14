@@ -32,6 +32,11 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         presenter.start()
     }
 
+    override fun onPause() {
+        presenter.stop()
+        super.onPause()
+    }
+
     private fun initUi() {
         featuredPosts.adapter = adapter
         featuredPosts.layoutManager = LinearLayoutManager(activity)

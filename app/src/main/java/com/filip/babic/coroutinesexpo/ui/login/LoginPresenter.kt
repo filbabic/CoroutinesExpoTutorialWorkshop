@@ -3,6 +3,9 @@ package com.filip.babic.coroutinesexpo.ui.login
 import com.filip.babic.coroutinesexpo.interaction.AuthenticationInteractor
 import com.filip.babic.coroutinesexpo.model.UserLoginData
 import com.filip.babic.coroutinesexpo.ui.base.BasePresenterImpl
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LoginPresenter(
     private val authenticationInteractor: AuthenticationInteractor
@@ -22,8 +25,12 @@ class LoginPresenter(
         if (userLoginData.isValid()) {
             val (email, password) = userLoginData
 
-            authenticationInteractor.loginUser(email, password) { isSuccessful ->
-                if (isSuccessful) {
+            GlobalScope.launch(context = Dispatchers.Default) {
+                val isAuthenticatedDeferred = authenticationInteractor.loginUser(email, password)
+                println("I'm deferring a value")
+
+                if (isAuthenticatedDeferred.await()) {
+                    println("I've compiled the value")
                     viewAction { startHomeScreen() }
                 }
             }

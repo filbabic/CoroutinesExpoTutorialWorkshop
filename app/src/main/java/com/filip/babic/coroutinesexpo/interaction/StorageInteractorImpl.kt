@@ -1,7 +1,10 @@
 package com.filip.babic.coroutinesexpo.interaction
 
 import com.filip.babic.coroutinesexpo.model.*
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class StorageInteractorImpl(
     private val firestore: FirebaseFirestore
@@ -43,31 +46,41 @@ class StorageInteractorImpl(
         }
     }
 
-    override fun getUserProfile(userId: String, onUserProfileLoaded: (UserProfile) -> Unit) {
-        firestore.collection(COLLECTION_USERS)
-            .whereEqualTo("id", userId)
-            .get()
-            .addOnSuccessListener { userSnapshot ->
-                val document = userSnapshot.documents.firstOrNull()
+    override suspend fun getUserProfile(userId: String): UserProfile {
+        val userDeferred = GlobalScope.async {
+            println("Getting the user")
+            val document = Tasks.await(
+                firestore.collection(COLLECTION_USERS)
+                    .whereEqualTo("id", userId)
+                    .get()
+            )
 
-                val user = document?.toObject(User::class.java) ?: return@addOnSuccessListener
+            document?.documents?.first()?.toObject(User::class.java) ?: User()
+        }
 
+        val postsDeferred = GlobalScope.async {
+            println("Getting the posts for my user")
+            val snapshot = Tasks.await(
                 firestore.collection(COLLECTION_POSTS)
                     .whereEqualTo("authorId", userId)
                     .get()
-                    .addOnSuccessListener { postsSnapshot ->
-                        val posts = postsSnapshot.toObjects(Post::class.java).filterNotNull()
+            )
 
-                        firestore.collection(COLLECTION_FEATURED)
-                            .whereEqualTo("authorId", userId)
-                            .get()
-                            .addOnSuccessListener { featuredSnapshot ->
-                                val featuredPosts = featuredSnapshot.toObjects(Post::class.java).filterNotNull()
+            snapshot.toObjects(Post::class.java).filterNotNull()
+        }
 
-                                onUserProfileLoaded(UserProfile(user, posts, featuredPosts))
-                            }
-                    }
-            }
+        val featuredDeferred = GlobalScope.async {
+            println("Getting the featured posts for my user")
+            val featuredSnapshot = Tasks.await(
+                firestore.collection(COLLECTION_FEATURED)
+                    .whereEqualTo("authorId", userId)
+                    .get()
+            )
+
+            featuredSnapshot.toObjects(Post::class.java).filterNotNull()
+        }
+
+        return UserProfile(userDeferred.await(), postsDeferred.await(), featuredDeferred.await())
     }
 
     override fun getUsers(onUsersLoaded: (List<UserItem>) -> Unit) {
